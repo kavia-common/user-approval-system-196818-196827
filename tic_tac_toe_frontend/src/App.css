@@ -1,104 +1,297 @@
-/* CSS Variables for Theme Management */
+/* Theme variables per task requirements */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  --primary: #3b82f6;
+  --secondary: #10b981;
+  --success: #f59e0b;
+  --error: #ef4444;
+
+  --background: #f9fafb;
+  --surface: #ffffff;
+  --text: #111827;
+
+  --muted: rgba(17, 24, 39, 0.65);
+  --border: rgba(17, 24, 39, 0.12);
+
+  --shadow: 0 10px 30px rgba(17, 24, 39, 0.10);
+  --radius: 16px;
 }
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
+* {
+  box-sizing: border-box;
 }
 
 .App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background: radial-gradient(1200px 600px at 50% 0%, rgba(59, 130, 246, 0.12), transparent 60%),
+    radial-gradient(900px 500px at 10% 20%, rgba(245, 158, 11, 0.10), transparent 55%),
+    var(--background);
+  color: var(--text);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: var(--bg-secondary);
+.AppShell {
   min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.Game {
+  width: min(560px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+
+.GameHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.GameTitle {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.GameSubtitle {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.PlayerIndicator {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.PlayerIndicatorLabel {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.PlayerPill {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
+  width: 44px;
+  height: 36px;
+  border-radius: 999px;
+  font-weight: 800;
+  border: 1px solid var(--border);
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--primary);
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+.PlayerPill.isO {
+  background: rgba(16, 185, 129, 0.10);
+  color: var(--secondary);
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
+.BoardWrap {
+  display: grid;
+  place-items: center;
+  padding: 8px 0 12px;
+}
+
+.Board {
+  width: min(420px, 100%);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 12px;
+  background: rgba(17, 24, 39, 0.02);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 4px);
+}
+
+.Square {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 14px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: grid;
+  place-items: center;
+  position: relative;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease, background 120ms ease;
+  box-shadow: 0 2px 10px rgba(17, 24, 39, 0.06);
+  min-height: 88px;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+.Square:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: rgba(59, 130, 246, 0.45);
+  box-shadow: 0 6px 18px rgba(17, 24, 39, 0.10);
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
+.Square:active:not(:disabled) {
+  transform: translateY(0px);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.Square:disabled {
+  cursor: not-allowed;
+  opacity: 0.95;
+}
+
+.Square:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25), 0 6px 18px rgba(17, 24, 39, 0.10);
+  border-color: rgba(59, 130, 246, 0.65);
+}
+
+.SquareMark {
+  font-size: clamp(38px, 7vw, 56px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.Square.isX .SquareMark {
+  color: var(--primary);
+}
+
+.Square.isO .SquareMark {
+  color: var(--secondary);
+}
+
+.Square.isWinning {
+  border-color: rgba(245, 158, 11, 0.75);
+  background: rgba(245, 158, 11, 0.12);
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.18), 0 10px 24px rgba(17, 24, 39, 0.10);
+}
+
+.GameFooter {
+  display: grid;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.GameStatus {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: rgba(17, 24, 39, 0.02);
+}
+
+.GameStatusLabel {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.GameStatusText {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.tone-success .GameStatusText {
+  color: var(--success);
+}
+
+.tone-warning .GameStatusText {
+  color: var(--error);
+}
+
+.tone-neutral .GameStatusText {
+  color: var(--text);
+}
+
+.GameMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.MoveCounter {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(59, 130, 246, 0.06);
+}
+
+.MoveCounterLabel {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.MoveCounterValue {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+/* Buttons */
+.Button {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, opacity 120ms ease, background 120ms ease;
+}
+
+.Button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+}
+
+.ButtonPrimary {
+  background: linear-gradient(180deg, rgba(59, 130, 246, 1), rgba(37, 99, 235, 1));
+  color: #ffffff;
+  border-color: rgba(37, 99, 235, 0.9);
+  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.22);
+}
+
+.ButtonPrimary:hover {
+  transform: translateY(-1px);
+  opacity: 0.98;
+}
+
+.ButtonPrimary:active {
+  transform: translateY(0px);
+}
+
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  .Game {
+    padding: 16px;
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
+  .GameHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .PlayerIndicator {
+    align-items: flex-start;
+    flex-direction: row;
+  }
+
+  .Board {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .Square {
+    min-height: 72px;
   }
 }
